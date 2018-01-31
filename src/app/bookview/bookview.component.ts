@@ -17,13 +17,13 @@ export abstract class BookViewComponent implements AfterContentInit {
     public ngAfterContentInit() {
       this.nextChapter();
     }
-  
+
     public nextChapter() {
       this.currentPageIndex += 1;
       if (this.currentPageIndex >= this.pages.length) {
         this.currentPageIndex = 0;
       }
-  
+
       this.iframe.src = this.pages[this.currentPageIndex];
     }
 
