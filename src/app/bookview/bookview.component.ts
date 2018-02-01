@@ -7,6 +7,10 @@ export abstract class BookViewComponent implements AfterContentInit {
       return this.iframe$.nativeElement;
     }
 
+    public get body(): HTMLBodyElement {
+      return this.iframe.contentDocument.body as HTMLBodyElement;
+    }
+
     public pages = [
       './assets/books/twenty/text/titlepage.xhtml',
       './assets/books/twenty/text/chapter-1-1.xhtml'

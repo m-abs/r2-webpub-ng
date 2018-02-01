@@ -1,7 +1,6 @@
-import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 
 import { BookViewComponent } from '../bookview.component';
-import { HostListener } from '@angular/core/src/metadata/directives';
 
 @Component({
   selector: 'app-scroll-book-view',
@@ -11,6 +10,8 @@ import { HostListener } from '@angular/core/src/metadata/directives';
 export class ScrollBookViewComponent extends BookViewComponent {
   @ViewChild('iframe')
   public iframe$: ElementRef;
+
+  public scrollPosition: number;
 
   private setIFrameSize(): void {
       // Remove previous iframe height so body scroll height will be accurate.
@@ -27,5 +28,34 @@ export class ScrollBookViewComponent extends BookViewComponent {
 
   public iframeLoaded() {
     this.setIFrameSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  public windowResize(event: Event) {
+    this.setIFrameSize();
+
+    this.scrollToPosition(this.scrollPosition);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  public windowScroll(event: Event) {
+    this.scrollPosition = this.getScrollPosition();
+  }
+
+  private getScrollPosition() {
+    return document.scrollingElement.scrollTop / document.scrollingElement.scrollHeight;
+  }
+
+  private scrollToPosition(position: number) {
+    if (position <= 0 || !position) {
+      document.scrollingElement.scrollTop = 0;
+      return;
+    }
+
+    if (position >= 1) {
+      return;
+    }
+
+    document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight * position;
   }
 }
