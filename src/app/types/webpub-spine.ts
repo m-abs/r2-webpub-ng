@@ -1,8 +1,8 @@
 import { nonenumerable } from 'nonenumerable';
 
-import { WebpubSpineItem } from './webpub-spine-item';
+import { WebpubLink } from './webpub-link';
 
-export class WebpubSpine extends Array<WebpubSpineItem> {
+export class WebpubSpine extends Array<WebpubLink> {
   @nonenumerable
   public raw: any;
 
@@ -12,7 +12,7 @@ export class WebpubSpine extends Array<WebpubSpineItem> {
     this.raw = raw;
 
     for (const item of raw) {
-      this.push(new WebpubSpineItem(item));
+      this.push(new WebpubLink(item));
     }
   }
 }
